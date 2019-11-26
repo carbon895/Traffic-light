@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TrafficLights</title>
+	<meta charset="utf-8">
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		#app{
+			width: 100%;
+			height: 100vh;
+			background-color: #ccc;
+		}
+
+		.trafficLights{
+			width: 160px;
+			height: 50vh;
+			position: absolute;
+			margin: auto;
+			background-color: #242424;
+			left: 0;
+			right: 0;
+			top: 20vh;
+			border-radius: 20px;
+		}
+
+		.trafficLightsGreen, .trafficLightsOrange, .trafficLightsRed, 
+		.trafficLightsGreenActive, .trafficLightsOrangeActive, .trafficLightsRedActive{
+			width: 60%;
+			height: 13vh;
+			position: relative;
+			border-radius: 50px;
+			margin: auto;
+			top: 3vh;
+			margin-bottom: 10%
+		}
+
+		.trafficLightsGreen{
+			background-color: green;
+		}
+
+		.trafficLightsOrange{
+			background-color: #F27B13;
+		}
+
+		.trafficLightsRed{
+			background-color: #A60303;
+		}
+
+		.trafficLightsGreenActive{
+			background-color: #32EB0C;
+		}
+
+		.trafficLightsOrangeActive{
+			background-color: #FFCC00;
+		}
+
+		.trafficLightsRedActive{
+			background-color: #FF0700;
+		}
+
+		.counter{
+			color: black;
+			font-size: 4em;
+			font-style: normal;
+			font-family: Arial;
+			text-align: center;
+			width: 11%;
+			height: 11%;
+			position: relative;
+			margin: auto;
+			border: 2px solid;
+			border-radius: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="counter"> {{ counter }} </div>
+		<div class="trafficLights">
+			<div class="trafficLightsGreen" v-bind:class="{ trafficLightsGreenActive: isActiveGreen}"></div>
+			<div class="trafficLightsOrange" v-bind:class="{ trafficLightsOrangeActive: isActiveOrange}"></div>
+			<div class="trafficLightsRed" v-bind:class="{ trafficLightsRedActive: isActiveRed}"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		
+		new Vue({
+			el: '#app',
+			data: {
+				isActiveGreen: false,
+				isActiveOrange: false,
+				isActiveRed: false,
+				counter: 10,
+			},
+			watch: {
+				counter: function(){
+					return this.activeLight();
+				}
+			},
+			methods: {
+			    activeLight: function(){
+			    	if (this.counter === 10 || this.counter > 6) {
+			    		this.isActiveGreen = true,
+			    		this.isActiveOrange = false,
+			    		this.isActiveRed = false
+			    	}else if (this.counter === 6 || this.counter > 3) {
+			    		this.isActiveOrange = true,
+			    		this.isActiveGreen = false,
+			    		this.isActiveRed = false
+			    	}else if (this.counter === 3 || this.counter > 0) {
+			    		this.isActiveRed = true, 
+			    		this.isActiveOrange = false, 
+			    		this.isActiveGreen = false
+			    	}else if (this.counter === 0) {
+			    		this.counter = 10
+			    	}else{
+			    		console.log('error')
+			    	}
+			    },
+			},
+			created() {
+			    setInterval(() => {
+			      this.counter = (this.counter - 1);
+			    }, 1000) 
+			},
+			mounted() {
+				this.activeLight();
+			   	console.log('ok')
+			},
+		})
+	</script>
+
+
+</body>
+</html>
